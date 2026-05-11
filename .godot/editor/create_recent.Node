@@ -1,0 +1,12 @@
+CPUParticles2D
+CollisionShape2D
+Area2D
+Label
+CanvasLayer
+Node
+VisibleOnScreenNotifier2D
+RigidBody2D
+Sprite2D
+StaticBody2D
+CharacterBody2D
+Camera2D
