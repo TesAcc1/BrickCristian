@@ -1,0 +1,80 @@
+[gd_scene load_steps=11 format=3 uid="uid://bwyc0jbak3c6s"]
+
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_1exlk"]
+[ext_resource type="PackedScene" uid="uid://b1jicjrct1yrv" path="res://scenes/paddle.tscn" id="1_ll22d"]
+[ext_resource type="PackedScene" uid="uid://be35w3b5do0sx" path="res://scenes/ball.tscn" id="2_nj764"]
+[ext_resource type="Texture2D" uid="uid://bejk6kved71lg" path="res://assets/0f0f0378-e0cc-4f27-aa82-be980337a7e4.png" id="4_ocycb"]
+[ext_resource type="Texture2D" uid="uid://tckvtyadtmp6" path="res://assets/ball.png" id="5_1s6an"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tg0xg"]
+size = Vector2(1164, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gl0tk"]
+size = Vector2(20, 669)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4odxf"]
+size = Vector2(20, 672)
+
+[sub_resource type="Curve" id="Curve_edqny"]
+_data = [Vector2(0.0266344, 0.0188679), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xqxs8"]
+size = Vector2(1139, 20)
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_1exlk")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(572, 324)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Ceiling" type="CollisionShape2D" parent="Walls"]
+position = Vector2(573, -13)
+shape = SubResource("RectangleShape2D_tg0xg")
+
+[node name="Right Wall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1160, 325)
+shape = SubResource("RectangleShape2D_gl0tk")
+
+[node name="LeftWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-15, 327)
+shape = SubResource("RectangleShape2D_4odxf")
+
+[node name="Paddle" parent="." instance=ExtResource("1_ll22d")]
+position = Vector2(575, 581)
+
+[node name="Ball" parent="." instance=ExtResource("2_nj764")]
+position = Vector2(641, 440)
+
+[node name="0f0f0378-e0Cc-4f27-aa82-be980337a7e4" type="Sprite2D" parent="."]
+modulate = Color(1, 0.243137, 1, 0.164706)
+z_index = -2
+position = Vector2(561, 354)
+texture = ExtResource("4_ocycb")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.45098)
+position = Vector2(569, 331)
+amount = 200
+lifetime = 5.0
+preprocess = 5.0
+texture = ExtResource("5_1s6an")
+emission_shape = 1
+emission_sphere_radius = 9.23
+direction = Vector2(1, 1)
+gravity = Vector2(0, 0)
+radial_accel_max = 100.0
+scale_amount_min = 0.0
+scale_amount_max = 0.01
+scale_amount_curve = SubResource("Curve_edqny")
+
+[node name="Deathzone" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Deathzone"]
+position = Vector2(573.5, 663)
+shape = SubResource("RectangleShape2D_xqxs8")
+
+[connection signal="body_entered" from="Deathzone" to="Ball" method="_on_deathzone_body_entered"]

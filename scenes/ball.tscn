@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://be35w3b5do0sx"]
+
+[ext_resource type="Script" path="res://scripts/ball.gd" id="1_qa6wm"]
+[ext_resource type="Texture2D" uid="uid://tckvtyadtmp6" path="res://assets/ball.png" id="1_ti0y3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rfifr"]
+radius = 13.0
+
+[sub_resource type="Curve" id="Curve_vujbx"]
+_data = [Vector2(0.00726392, 1), 0.0, 0.0, 0, 0, Vector2(0.736078, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_khu1y"]
+offsets = PackedFloat32Array(0, 0.997319)
+colors = PackedColorArray(1, 1, 1, 0.611765, 0.732277, 0.558775, 0.987802, 0.247059)
+
+[node name="Ball" type="CharacterBody2D"]
+collision_layer = 2
+motion_mode = 1
+floor_constant_speed = true
+floor_block_on_wall = false
+script = ExtResource("1_qa6wm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(0, -4.76837e-07)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_ti0y3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rfifr")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 1000
+lifetime = 0.4
+texture = ExtResource("1_ti0y3")
+emission_shape = 1
+emission_sphere_radius = 12.41
+gravity = Vector2(0, 0)
+scale_amount_min = 0.0
+scale_amount_max = 0.02
+scale_amount_curve = SubResource("Curve_vujbx")
+color_ramp = SubResource("Gradient_khu1y")
